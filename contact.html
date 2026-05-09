@@ -99,7 +99,9 @@
 
       <div>
         <h2>Send a message</h2>
-        <form class="form" action="mailto:info@generationeurope.eu" method="post" enctype="text/plain">
+        <form class="form" name="contact" method="POST" action="/thank-you.html" data-netlify="true" data-netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="contact">
+          <p hidden><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
           <div>
             <label for="c-name">Your name</label>
             <input type="text" id="c-name" name="name" required>
