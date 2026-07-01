@@ -1,3 +1,4 @@
 # Routing per lingua del browser: gli italiani atterrano sulla versione IT, gli altri sulla EN (root).
-# I redirect condizionati per lingua funzionano solo in produzione su Netlify (non in locale/deploy preview).
-/   /it/   302   Language=it
+# "302!" forza il redirect anche se esiste index.html alla radice (altrimenti Netlify lo oscura).
+# I redirect condizionati per lingua funzionano solo in produzione (non in locale/deploy preview).
+/   /it/   302!   Language=it
