@@ -1,3 +1,7 @@
+# Vecchi URL rinominati -> nuovi (evita 404 su link/bookmark esistenti e preserva la SEO).
+/what-we-want.html         /the-vision.html         301
+/geopolitical-arena.html   /europe-today.html       301
+
 # Routing per lingua del browser: gli italiani atterrano sulla versione IT, gli altri sulla EN (root).
 # "302!" forza il redirect anche se esiste index.html alla radice (altrimenti Netlify lo oscura).
 # I redirect condizionati per lingua funzionano solo in produzione (non in locale/deploy preview).
