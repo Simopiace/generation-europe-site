@@ -865,3 +865,35 @@ section.compact { padding: var(--space-5) 0; }
     white-space: nowrap;
   }
 }
+
+/* ===== Language switcher ===== */
+.nav-lang { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; }
+.nav-lang a { border-bottom: none; color: var(--muted); font-weight: 700; }
+.nav-lang a:hover { color: var(--midnight); opacity: 1; }
+.nav-lang strong { color: var(--midnight); }
+.nav-lang .sep { color: var(--line); font-weight: 400; }
+.footer-lang { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.04em; }
+.footer-lang a { border-bottom: none; color: rgba(255,255,255,0.6); }
+.footer-lang a:hover { color: var(--white); }
+.footer-lang strong { color: var(--white); }
+.footer-lang .sep { color: rgba(255,255,255,0.3); font-weight: 400; }
+
+@media (max-width: 880px) {
+  .nav-links li.nav-lang { padding: var(--space-2) 0; justify-content: center; }
+  .nav-links li.nav-lang a { display: inline; padding: 0; border-bottom: none; }
+}
+
+/* ===== Language switcher (segmented pill) ===== */
+.nav-lang-item { display: flex; align-items: center; }
+.lang-switch { display: inline-flex; align-items: stretch; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; line-height: 1; }
+.lang-switch .lang-opt { padding: 6px 12px; color: var(--muted); font-weight: 700; border-bottom: none; display: inline-flex; align-items: center; transition: background 0.15s ease, color 0.15s ease; }
+.lang-switch a.lang-opt:hover { color: var(--midnight); background: var(--bg-soft); opacity: 1; }
+.lang-switch .lang-opt.active { background: var(--midnight); color: var(--white); }
+.lang-switch--dark { border-color: rgba(255,255,255,0.32); }
+.lang-switch--dark .lang-opt { color: rgba(255,255,255,0.65); }
+.lang-switch--dark a.lang-opt:hover { color: var(--white); background: rgba(255,255,255,0.12); }
+.lang-switch--dark .lang-opt.active { background: var(--white); color: var(--midnight); }
+@media (max-width: 880px) {
+  .nav-links li.nav-lang-item { justify-content: center; padding: var(--space-3) 0 var(--space-1); border-bottom: 0; }
+  .nav-links .lang-switch .lang-opt { display: inline-flex; padding: 6px 16px; border-bottom: none; font-size: 0.78rem; }
+}
