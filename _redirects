@@ -2,7 +2,6 @@
 /what-we-want.html         /the-vision.html         301
 /geopolitical-arena.html   /europe-today.html       301
 
-# Routing per lingua del browser: gli italiani atterrano sulla versione IT, gli altri sulla EN (root).
-# "302!" forza il redirect anche se esiste index.html alla radice (altrimenti Netlify lo oscura).
-# I redirect condizionati per lingua funzionano solo in produzione (non in locale/deploy preview).
-/   /it/   302!   Language=it
+# NB: il routing per lingua (browser italiano -> /it/ alla prima visita, con MEMORIA della
+# scelta manuale via cookie "ge_lang") e' gestito lato client in index.html + js/nav.js.
+# Cosi' se l'utente sceglie attivamente EN, il sito non lo rimbalza piu' su IT.

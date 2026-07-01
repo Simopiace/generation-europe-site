@@ -3,6 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+  /* Routing lingua lato client: browser IT alla prima visita -> /it/, ma con memoria
+     della scelta manuale (cookie ge_lang) cosi' chi sceglie EN non viene piu' rimbalzato. */
+  (function () {
+    try {
+      var m = document.cookie.match(/(?:^|;\s*)ge_lang=(en|it)/);
+      var pref = m ? m[1] : null;
+      if (pref === 'en') return;                          /* scelta esplicita EN: resta */
+      if (pref === 'it') { location.replace('/it/'); return; }
+      var l = (navigator.language || navigator.userLanguage || '').toLowerCase();
+      if (l.indexOf('it') === 0) location.replace('/it/'); /* browser italiano, 1a visita */
+    } catch (e) {}
+  })();
+  </script>
   <title>Generation Europe — Uniting Europe into a single sovereign state</title>
 <meta name="description" content="The movement of Europeans committed to uniting Europe into a single sovereign state — the defining challenge of our generation.">
   <meta property="og:type" content="website">
