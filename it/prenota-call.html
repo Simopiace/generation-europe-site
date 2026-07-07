@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prenota la tua call — Generation Europe</title>
+  <meta name="description" content="Prenota la tua videochiamata conoscitiva con Generation Europe.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="nav-brand" aria-label="Generation Europe"><img src="/images/logo.png" alt="Generation Europe"></a>
+    <button class="nav-toggle" aria-label="Apri menu" aria-expanded="false" aria-controls="primary-nav">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="primary-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="europe-today.html">L'Europa Oggi</a></li>
+      <li><a href="who-we-are.html">Chi Siamo</a></li>
+      <li><a href="the-vision.html">La Vision</a></li>
+      <li><a href="our-plan.html">Il Piano</a></li>
+      <li><a href="why-we-exist.html">Perché Esistiamo</a></li>
+      <li><a href="join-us.html" class="nav-cta">Unisciti a Noi</a></li>
+      <li><a href="contact.html">Contatti</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="page-header">
+  <div class="container">
+    <span class="eyebrow">Candidatura a socio</span>
+    <h1>Prenota la tua call</h1>
+    <p class="lead">Scegli il giorno e l'orario che preferisci per la tua videochiamata conoscitiva con Generation Europe. Dura circa 30 minuti e si svolge su Google Meet.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div id="my-cal-inline-30min" style="width:100%; min-height:700px; overflow:auto;"></div>
+  </div>
+
+  <!-- Cal.com inline embed -->
+  <script type="text/javascript">
+    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+    Cal("init", "videochiamata-conoscitiva", { origin: "https://cal.com" });
+    Cal.ns["videochiamata-conoscitiva"]("inline", {
+      elementOrSelector: "#my-cal-inline-30min",
+      config: { "layout": "month_view" },
+      calLink: "generation-europe/videochiamata-conoscitiva",
+    });
+    Cal.ns["videochiamata-conoscitiva"]("ui", { "cssVarsPerTheme": { "light": { "cal-brand": "#00163A" } }, "hideEventTypeDetails": false, "layout": "month_view" });
+  </script>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Generation Europe</h4>
+        <p style="color: rgba(255,255,255,0.7); font-style: italic;">Il movimento dei giovani europei che unisce l'Europa in un unico Stato sovrano.</p>
+        <p style="margin-top: var(--space-2);"><a href="mailto:info@generationeurope.eu">info@generationeurope.eu</a></p>
+      </div>
+      <div>
+        <h4>Il Progetto</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="europe-today.html">L'Europa Oggi</a></li>
+          <li><a href="who-we-are.html">Chi Siamo</a></li>
+          <li><a href="the-vision.html">La Vision</a></li>
+          <li><a href="our-plan.html">Il Piano</a></li>
+          <li><a href="why-we-exist.html">Perché Esistiamo</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Partecipa</h4>
+        <ul>
+          <li><a href="join-us.html">Unisciti a Noi</a></li>
+          <li><a href="contact.html">Contatti</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Generation Europe</span>
+      <a href="privacy-policy.html">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/nav.js" defer></script>
+<script src="/js/cookie-banner.js" defer></script>
+</body>
+</html>
