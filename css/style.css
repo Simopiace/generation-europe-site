@@ -242,6 +242,8 @@ section.compact { padding: var(--space-5) 0; }
 .letter-body p { margin-bottom: var(--space-3); }
 .letter-body p:last-child { margin-bottom: 0; }
 .letter-body strong { color: var(--midnight); font-weight: 700; }
+.letter-body h2 { margin-top: var(--space-5); }
+.letter-body h3 { margin-top: var(--space-4); }
 .letter-signature {
   margin-top: var(--space-4);
   font-style: italic;
@@ -460,6 +462,7 @@ section.compact { padding: var(--space-5) 0; }
 @media (max-width: 880px) {
   .layout-split { grid-template-columns: 1fr; gap: var(--space-3); padding: 0 var(--space-3); }
   .layout-split-aside { position: static; }
+  .br-desk { display: none; }
 }
 
 /* ===== Article body (long-form) ===== */
