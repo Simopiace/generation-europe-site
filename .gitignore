@@ -1,0 +1,5 @@
+# Local Netlify folder
+.netlify
+
+# Prototipo usa-e-getta della call app (non va in produzione)
+call-app-prototype.html

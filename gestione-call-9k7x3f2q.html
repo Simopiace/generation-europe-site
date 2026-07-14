@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Call · Generation Europe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --midnight:#00163A; --ink:#1a2230; --muted:#6b7688; --line:#e7ebf1;
+    --bg:#f4f6fa; --white:#fff; --accent:#2f6df6; --green:#1f9d55; --green-bg:#e7f6ee; --amber:#b7791f;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  body{margin:0; font-family:'Lato',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--ink);}
+  .app{max-width:520px; margin:0 auto; min-height:100vh;}
+  /* ---- login ---- */
+  #login{position:fixed; inset:0; background:var(--midnight); display:flex; align-items:center; justify-content:center; padding:24px; z-index:50;}
+  .login-card{width:100%; max-width:340px; text-align:center; color:#fff;}
+  .login-card .eyebrow{font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.6); font-weight:700;}
+  .login-card h1{font-size:1.5rem; font-weight:900; margin:6px 0 20px;}
+  .login-card input{width:100%; padding:13px 14px; border-radius:12px; border:none; font-size:1rem; text-align:center; letter-spacing:.05em;}
+  .login-card button{width:100%; margin-top:12px; padding:13px; border-radius:12px; border:none; background:#fff; color:var(--midnight); font-weight:900; font-size:1rem; cursor:pointer;}
+  .login-err{color:#ff9b9b; font-size:.85rem; margin-top:12px; min-height:1em;}
+  /* ---- header ---- */
+  header{position:sticky; top:0; z-index:10; background:var(--midnight); color:#fff; padding:18px 18px 14px; border-radius:0 0 18px 18px; box-shadow:0 6px 20px rgba(0,22,58,.18);}
+  .eyebrow{font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.6); font-weight:700;}
+  h1{margin:2px 0 0; font-size:1.5rem; font-weight:900; letter-spacing:-.02em;}
+  .sub{font-size:.85rem; color:rgba(255,255,255,.72); margin-top:2px;}
+  .tabs{display:flex; gap:6px; margin-top:14px;}
+  .tab{flex:1; text-align:center; padding:8px 0; font-size:.82rem; font-weight:700; color:rgba(255,255,255,.7); background:rgba(255,255,255,.08); border-radius:10px; border:none; cursor:pointer;}
+  .tab.active{background:#fff; color:var(--midnight);}
+  main{padding:16px 14px 40px;}
+  .card{background:var(--white); border:1px solid var(--line); border-left:4px solid var(--midnight); border-radius:14px; padding:14px 14px 12px; margin-bottom:12px; box-shadow:0 2px 10px rgba(16,32,64,.05);}
+  .card.done{border-left-color:var(--green); opacity:.72;}
+  .card-top{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px;}
+  .left{display:flex; align-items:center; gap:8px; min-width:0;}
+  .datechip{display:inline-flex; align-items:center; gap:6px; background:#eef2fb; color:var(--midnight); font-weight:900; font-size:.82rem; padding:5px 10px; border-radius:8px;}
+  .datechip .t{color:var(--accent);}
+  .countdown{font-size:.66rem; color:var(--muted); font-weight:800; white-space:nowrap;}
+  .badge{font-size:.72rem; font-weight:800; padding:4px 9px; border-radius:20px; white-space:nowrap;}
+  .badge.todo{background:#fff4e0; color:var(--amber);}
+  .badge.done{background:var(--green-bg); color:var(--green);}
+  .name{font-size:1.22rem; font-weight:900; letter-spacing:-.01em; color:var(--midnight); margin:2px 0 2px;}
+  .meta{font-size:.83rem; color:var(--muted); font-weight:700; margin-bottom:8px;}
+  .why-label{font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); font-weight:800; margin-bottom:3px;}
+  .why{font-size:.95rem; line-height:1.5; color:var(--ink);}
+  .why.clamp{display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;}
+  .why.empty{color:var(--muted); font-style:italic;}
+  .more{background:none; border:none; color:var(--accent); font-weight:800; font-size:.82rem; padding:6px 0 0; cursor:pointer;}
+  .actions{display:flex; gap:8px; margin-top:12px; border-top:1px solid var(--line); padding-top:10px;}
+  .btn{flex:1; padding:10px; border-radius:10px; font-weight:800; font-size:.86rem; border:none; cursor:pointer; text-align:center; text-decoration:none; display:inline-block;}
+  .btn-do{background:var(--midnight); color:#fff;}
+  .btn-undo{background:#eef1f6; color:var(--ink);}
+  .btn-mail{flex:0 0 auto; background:#eef1f6; color:var(--midnight); padding:10px 14px;}
+  .empty-state{text-align:center; color:var(--muted); padding:50px 20px; font-weight:700;}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="login-card">
+    <div class="eyebrow">Generation Europe</div>
+    <h1>Call desk</h1>
+    <input id="pass" type="password" inputmode="text" autocomplete="current-password" placeholder="Password" autofocus>
+    <button id="enter">Entra</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<div class="app" id="appWrap" style="display:none;">
+  <header>
+    <div class="eyebrow">Generation Europe</div>
+    <h1>Call prenotate</h1>
+    <div class="sub" id="sub">—</div>
+    <div class="tabs">
+      <button class="tab active" data-f="prossime">Prossime</button>
+      <button class="tab" data-f="fatte">Fatte</button>
+      <button class="tab" data-f="tutte">Tutte</button>
+    </div>
+  </header>
+  <main id="list"></main>
+</div>
+
+<script>
+const PASS_KEY = 'geneu_call_pass';
+const FN = '/.netlify/functions/calls-data';
+let CALLS = [];
+let filter = 'prossime';
+
+const GG=["dom","lun","mar","mer","gio","ven","sab"];
+const MM=["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"];
+function fmt(iso){const d=new Date(iso);return {d:`${GG[d.getDay()]} ${d.getDate()} ${MM[d.getMonth()]}`, t:d.toTimeString().slice(0,5), ts:d.getTime()};}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+async function api(action, extra){
+  const passcode = localStorage.getItem(PASS_KEY) || '';
+  const res = await fetch(FN, {method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(Object.assign({passcode, action}, extra||{}))});
+  return res;
+}
+
+async function load(){
+  const res = await api('list');
+  if(res.status === 401){ showLogin('Password errata.'); return; }
+  if(!res.ok){ showLogin('Errore di connessione, riprova.'); return; }
+  const data = await res.json();
+  CALLS = data.calls || [];
+  document.getElementById('login').style.display='none';
+  document.getElementById('appWrap').style.display='';
+  render();
+}
+
+function showLogin(msg){
+  document.getElementById('appWrap').style.display='none';
+  const l=document.getElementById('login'); l.style.display='flex';
+  document.getElementById('loginErr').textContent = msg||'';
+}
+
+function render(){
+  const now = Date.now();
+  let rows = CALLS.map(c=>{
+    const f=fmt(c.call_start); const diff=f.ts-now; let cd='';
+    if(diff>0){const dd=Math.floor(diff/864e5), hh=Math.floor((diff%864e5)/36e5); cd = dd>0?`tra ${dd}g ${hh}h`:`tra ${hh}h`;}
+    return Object.assign({}, c, f, {cd, done: c.status==='done'});
+  }).sort((a,b)=>a.ts-b.ts);
+
+  if(filter==='prossime') rows=rows.filter(r=>!r.done);
+  if(filter==='fatte')    rows=rows.filter(r=>r.done);
+  document.getElementById('sub').textContent = `${rows.length} ${filter==='fatte'?'fatte':filter==='tutte'?'in totale':'in programma'}`;
+
+  const list=document.getElementById('list');
+  if(!rows.length){ list.innerHTML='<div class="empty-state">Nessuna call qui.</div>'; return; }
+  list.innerHTML = rows.map((r,i)=>{
+    const meta=[r.city, r.role].filter(Boolean).join(' · ');
+    const why = r.why ? esc(r.why) : null;
+    return `
+    <div class="card ${r.done?'done':''}">
+      <div class="card-top">
+        <span class="left"><span class="datechip">${r.d} <span class="t">· ${r.t}</span></span>${r.cd?`<span class="countdown">${r.cd}</span>`:''}</span>
+        <span class="badge ${r.done?'done':'todo'}">${r.done?'✓ Fatta':'Da fare'}</span>
+      </div>
+      <div class="name">${esc(r.name)||'(senza nome)'}</div>
+      ${meta?`<div class="meta">📍 ${esc(meta)}</div>`:''}
+      <div class="why-label">Perché vuole entrare</div>
+      ${why?`<div class="why clamp" id="why${i}">${why}</div>${why.length>140?`<button class="more" onclick="toggleWhy(${i}, this)">Mostra tutto ▾</button>`:''}`
+           :`<div class="why empty">— (nessun testo dal modulo)</div>`}
+      <div class="actions">
+        <button class="btn ${r.done?'btn-undo':'btn-do'}" onclick="setStatus('${r.id}','${r.done?'todo':'done'}')">${r.done?'Segna da fare':'Segna come fatta'}</button>
+        ${r.email?`<a class="btn btn-mail" href="mailto:${esc(r.email)}">✉</a>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleWhy(i, btn){
+  const el=document.getElementById('why'+i);
+  el.classList.toggle('clamp');
+  btn.textContent = el.classList.contains('clamp') ? 'Mostra tutto ▾' : 'Mostra meno ▴';
+}
+
+async function setStatus(id, status){
+  const res = await api('setStatus', {id, status});
+  if(res.ok){ const c=CALLS.find(x=>x.id===id); if(c) c.status=status; render(); }
+}
+
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active'); filter=t.dataset.f; render();
+});
+
+document.getElementById('enter').onclick=()=>{
+  const v=document.getElementById('pass').value.trim();
+  if(!v) return;
+  localStorage.setItem(PASS_KEY, v);
+  document.getElementById('loginErr').textContent='';
+  load();
+};
+document.getElementById('pass').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('enter').click(); });
+
+// avvio: se ho gia' una password salvata, provo direttamente
+if(localStorage.getItem(PASS_KEY)) load(); else showLogin('');
+</script>
+</body>
+</html>
