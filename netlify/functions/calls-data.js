@@ -21,13 +21,15 @@ function json(statusCode, obj) {
 
 async function sb(method, path, body) {
   const key = process.env.SUPABASE_SERVICE_KEY;
+  const headers = {
+    apikey: key || '',
+    Authorization: `Bearer ${key || ''}`,
+    'Content-Type': 'application/json',
+  };
+  if (method === 'PATCH') headers.Prefer = 'return=minimal';
   return fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
     method,
-    headers: {
-      apikey: key, Authorization: `Bearer ${key}`,
-      'Content-Type': 'application/json',
-      Prefer: method === 'PATCH' ? 'return=minimal' : undefined,
-    },
+    headers,
     body: body ? JSON.stringify(body) : undefined,
   });
 }

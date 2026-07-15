@@ -22,6 +22,11 @@
   .login-card .eyebrow{font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.6); font-weight:700;}
   .login-card h1{font-size:1.5rem; font-weight:900; margin:6px 0 20px;}
   .login-card input{width:100%; padding:13px 14px; border-radius:12px; border:none; font-size:1rem; text-align:center; letter-spacing:.05em;}
+  .pass-wrap{position:relative;}
+  .pass-wrap input{padding-right:46px;}
+  .pass-wrap #toggle{position:absolute; right:6px; top:50%; transform:translateY(-50%); margin:0; width:38px; height:38px; border:none; background:transparent; cursor:pointer; padding:0; display:flex; align-items:center; justify-content:center; color:#3a4a63;}
+  .pass-wrap #toggle:hover{color:#00163A;}
+  .pass-wrap #toggle svg{width:22px; height:22px; display:block;}
   .login-card button{width:100%; margin-top:12px; padding:13px; border-radius:12px; border:none; background:#fff; color:var(--midnight); font-weight:900; font-size:1rem; cursor:pointer;}
   .login-err{color:#ff9b9b; font-size:.85rem; margin-top:12px; min-height:1em;}
   /* ---- header ---- */
@@ -64,7 +69,10 @@
   <div class="login-card">
     <div class="eyebrow">Generation Europe</div>
     <h1>Call desk</h1>
-    <input id="pass" type="password" inputmode="text" autocomplete="current-password" placeholder="Password" autofocus>
+    <div class="pass-wrap">
+      <input id="pass" type="password" inputmode="text" autocomplete="current-password" placeholder="Password" autofocus>
+      <button type="button" id="toggle" aria-label="Mostra/nascondi password"></button>
+    </div>
     <button id="enter">Entra</button>
     <div class="login-err" id="loginErr"></div>
   </div>
@@ -177,6 +185,17 @@ document.getElementById('enter').onclick=()=>{
   localStorage.setItem(PASS_KEY, v);
   document.getElementById('loginErr').textContent='';
   load();
+};
+const EYE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+const EYE_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20C5 20 1 12 1 12a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+const tgl = document.getElementById('toggle');
+tgl.innerHTML = EYE;
+tgl.onclick=()=>{
+  const p=document.getElementById('pass');
+  const show = p.type==='password';
+  p.type = show ? 'text' : 'password';
+  tgl.innerHTML = show ? EYE_OFF : EYE;
+  p.focus();
 };
 document.getElementById('pass').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('enter').click(); });
 
