@@ -63,6 +63,13 @@ exports.handler = async (event) => {
   const name  = attendee.name || p.name || null;
   const start = p.startTime || p.start || (p.booking && p.booking.startTime) || null;
   const uid   = p.uid || (p.booking && p.booking.uid) || null;
+  const meetingUrl =
+    (p.metadata && p.metadata.videoCallUrl) ||
+    (p.videoCallData && p.videoCallData.url) ||
+    (typeof p.location === 'string' && /^https?:\/\//.test(p.location) ? p.location : null) ||
+    null;
+  // log per confermare il campo esatto del link Meet al primo booking reale
+  console.log('cal-webhook meeting fields', JSON.stringify({ location: p.location, videoCallUrl: p.metadata && p.metadata.videoCallUrl, videoCallData: p.videoCallData }));
 
   if (!email) return { statusCode: 200, body: 'no email in payload' };
 
@@ -70,15 +77,15 @@ exports.handler = async (event) => {
     if (trigger === 'BOOKING_CANCELLED') {
       // call annullata: la togliamo dalla lista (call_start -> null)
       await supabase('PATCH', `geneu_calls?email=eq.${encodeURIComponent(email)}`,
-        { call_start: null, cal_booking_uid: null, status: 'todo' });
+        { call_start: null, cal_booking_uid: null, meeting_url: null, status: 'todo' });
       return { statusCode: 200, body: 'cancelled' };
     }
 
     // BOOKING_CREATED (conferma) o BOOKING_RESCHEDULED
     if (trigger === 'BOOKING_CREATED' || trigger === 'BOOKING_RESCHEDULED') {
-      await supabase('POST', 'geneu_calls?on_conflict=email', [{
-        email, name, call_start: start, cal_booking_uid: uid, status: 'todo',
-      }]);
+      const row = { email, name, call_start: start, cal_booking_uid: uid, status: 'todo' };
+      if (meetingUrl) row.meeting_url = meetingUrl; // solo se trovato, per non azzerarlo
+      await supabase('POST', 'geneu_calls?on_conflict=email', [row]);
       return { statusCode: 200, body: 'ok' };
     }
 

@@ -46,7 +46,7 @@ exports.handler = async (event) => {
   try {
     if (req.action === 'list') {
       const res = await sb('GET',
-        'geneu_calls?select=id,name,email,call_start,why,city,country,role,status&call_start=not.is.null&order=call_start.asc');
+        'geneu_calls?select=id,name,email,call_start,why,city,country,role,status,notes,meeting_url&call_start=not.is.null&order=call_start.asc');
       if (!res.ok) return json(502, { error: 'db read failed' });
       const calls = await res.json();
       return json(200, { calls });
@@ -57,6 +57,14 @@ exports.handler = async (event) => {
       if (!req.id) return json(400, { error: 'missing id' });
       const res = await sb('PATCH', `geneu_calls?id=eq.${encodeURIComponent(req.id)}`, { status });
       if (!res.ok) return json(502, { error: 'db update failed' });
+      return json(200, { ok: true });
+    }
+
+    if (req.action === 'setNotes') {
+      if (!req.id) return json(400, { error: 'missing id' });
+      const notes = typeof req.notes === 'string' ? req.notes : '';
+      const res = await sb('PATCH', `geneu_calls?id=eq.${encodeURIComponent(req.id)}`, { notes });
+      if (!res.ok) return json(502, { error: 'db notes update failed' });
       return json(200, { ok: true });
     }
 

@@ -60,7 +60,17 @@
   .btn-do{background:var(--midnight); color:#fff;}
   .btn-undo{background:#eef1f6; color:var(--ink);}
   .btn-mail{flex:0 0 auto; background:#eef1f6; color:var(--midnight); padding:10px 14px;}
+  .btn-call{display:block; margin-top:12px; background:#1a73e8; color:#fff;}
+  .btn-call:hover{background:#1666d0;}
   .empty-state{text-align:center; color:var(--muted); padding:50px 20px; font-weight:700;}
+  .notes{margin-top:10px; border-top:1px dashed var(--line); padding-top:10px;}
+  .notes-label{font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); font-weight:800; margin-bottom:5px;}
+  .note-input{width:100%; min-height:44px; resize:vertical; border:1px solid var(--line); border-radius:10px; padding:9px 10px; font-family:inherit; font-size:.9rem; line-height:1.45; color:var(--ink); background:#fbfcfe; box-sizing:border-box;}
+  .note-input:focus{outline:none; border-color:var(--midnight); background:#fff;}
+  .note-status{font-size:.72rem; font-weight:700; margin-top:4px; min-height:14px;}
+  .note-status.saving{color:var(--muted);}
+  .note-status.ok{color:var(--green);}
+  .note-status.err{color:#c0392b;}
 </style>
 </head>
 <body>
@@ -155,9 +165,15 @@ function render(){
       <div class="why-label">Perché vuole entrare</div>
       ${why?`<div class="why clamp" id="why${i}">${why}</div>${why.length>140?`<button class="more" onclick="toggleWhy(${i}, this)">Mostra tutto ▾</button>`:''}`
            :`<div class="why empty">— (nessun testo dal modulo)</div>`}
+      ${r.meeting_url?`<a class="btn btn-call" href="${esc(r.meeting_url)}" target="_blank" rel="noopener">Apri videochiamata ↗</a>`:''}
       <div class="actions">
         <button class="btn ${r.done?'btn-undo':'btn-do'}" onclick="setStatus('${r.id}','${r.done?'todo':'done'}')">${r.done?'Segna da fare':'Segna come fatta'}</button>
         ${r.email?`<a class="btn btn-mail" href="mailto:${esc(r.email)}">✉</a>`:''}
+      </div>
+      <div class="notes">
+        <div class="notes-label">Note sulla call</div>
+        <textarea class="note-input" data-id="${r.id}" placeholder="Com'è andata? Appunti, prossimi passi…" onblur="saveNote(this)">${r.notes?esc(r.notes):''}</textarea>
+        <div class="note-status"></div>
       </div>
     </div>`;
   }).join('');
@@ -172,6 +188,20 @@ function toggleWhy(i, btn){
 async function setStatus(id, status){
   const res = await api('setStatus', {id, status});
   if(res.ok){ const c=CALLS.find(x=>x.id===id); if(c) c.status=status; render(); }
+}
+
+async function saveNote(el){
+  const id = el.dataset.id;
+  const notes = el.value;
+  const c = CALLS.find(x=>x.id===id);
+  if(c && (c.notes||'') === notes) return; // nessuna modifica, non salva
+  const st = el.parentElement.querySelector('.note-status');
+  if(st){ st.textContent='Salvataggio…'; st.className='note-status saving'; }
+  try{
+    const res = await api('setNotes', {id, notes});
+    if(res.ok){ if(c) c.notes=notes; if(st){ st.textContent='Salvato ✓'; st.className='note-status ok'; } }
+    else { if(st){ st.textContent='Errore, riprova'; st.className='note-status err'; } }
+  }catch(e){ if(st){ st.textContent='Errore di rete'; st.className='note-status err'; } }
 }
 
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
